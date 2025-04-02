@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = ConcertController.class)
-public class ConcertControllerTest {
+class ConcertControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -25,12 +25,12 @@ public class ConcertControllerTest {
     private ConcertRepository concertRepository;
 
     @Test
-    public void findAll() throws Exception {
+    void findAll() throws Exception {
         mockMvc.perform(get("/concerts")).andExpect(status().isOk());
     }
 
     @Test
-    public void addConcert() throws Exception {
+    void addConcert() throws Exception {
         // Création d'un concert sans identifiant (tel qu'il est envoyé par le client)
         Concert concertToSave = new Concert();
         concertToSave.setNomConcert("NewConcert");
