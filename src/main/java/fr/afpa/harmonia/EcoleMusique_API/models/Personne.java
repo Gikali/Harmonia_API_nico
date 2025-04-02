@@ -2,6 +2,7 @@ package fr.afpa.harmonia.EcoleMusique_API.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Entity
@@ -9,7 +10,7 @@ import lombok.Data;
 public class Personne {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPersonne")
     private int id;
 
