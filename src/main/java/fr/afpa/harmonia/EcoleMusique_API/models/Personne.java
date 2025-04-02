@@ -2,8 +2,10 @@ package fr.afpa.harmonia.EcoleMusique_API.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NonNull;
 
+/**
+ * Bean représentant une personne
+ */
 @Data
 @Entity
 @Table(name = "PERSONNE")
