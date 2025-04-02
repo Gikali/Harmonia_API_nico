@@ -8,6 +8,7 @@ class EcoleMusiqueApiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//Vide par défaut
 	}
 
 }
