@@ -23,15 +23,15 @@ public class PersonneController {
      * @return List - Liste des personnes
      */
     @GetMapping("/personnes")
-    public List<Personne> getPersonnes() {
+    public Iterable<Personne> getPersonnes() {
         return personneRepository.findAll();
     }
 
     /**
      * Renvoie la Personne ayant l'identifiant assé en paramètre
      *
-     * @param id int : L'identifiant de la personne recherchée
-     * @return Personne - La Personne s'il elle se trouve dans la base de données ; null sinon
+     * @param id L'identifiant de la personne recherchée
+     * @return Personne - La Personne si elle se trouve dans la base de données ; null sinon
      */
     @GetMapping("/personne/{id}")
     public Personne getPersonne(@PathVariable("id") int id) {
@@ -42,6 +42,7 @@ public class PersonneController {
         return null;
     }
 
+//    TODO : Changement des paramètres pour utiliser l'id plutôt que de tout faire à partir de l'objet (voir cours)
     /**
      * Ajoute la personne en paramètre das la base de données
      *
@@ -67,7 +68,7 @@ public class PersonneController {
      *
      * @param personne La personne à supprimer
      */
-    @DeleteMapping("/personne")
+    @DeleteMapping("/personne")     // Renmplacer Personne => id
     public void deletePersonne(@RequestBody Personne personne) {
         personneRepository.delete(personne);
     }

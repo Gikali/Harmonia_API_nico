@@ -13,12 +13,12 @@ public class Personne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPersonne")
-    private int id;
+    @Column(name = "id_personne")
+    private int idPersonne;
 
-    @Column(name = "nomPersonne")
-    private String nom;
+    @Column(name = "nom_personne", length = 50, nullable = false)
+    private String nomPersonne;
 
-    @Column(name = "prenomPersonne")
-    private String prenom;
+    @Column(name = "prenom_personne", length = 30, nullable = false)
+    private String prenomPersonne;
 }
