@@ -18,7 +18,7 @@ public class PersonneController {
     private PersonneRepository personneRepository;
 
     /**
-     * Renvoie toutes les personnes de la BDD
+     * Renvoie toutes les personnes de la BDD.
      *
      * @return List - Liste des personnes
      */
@@ -28,7 +28,7 @@ public class PersonneController {
     }
 
     /**
-     * Renvoie la Personne ayant l'identifiant assé en paramètre
+     * Renvoie la Personne ayant l'identifiant assé en paramètre.
      *
      * @param id L'identifiant de la personne recherchée
      * @return Personne - La Personne si elle se trouve dans la base de données ; null sinon
@@ -42,35 +42,55 @@ public class PersonneController {
         return null;
     }
 
-//    TODO : Changement des paramètres pour utiliser l'id plutôt que de tout faire à partir de l'objet (voir cours)
     /**
-     * Ajoute la personne en paramètre das la base de données
+     * Ajoute la personne en paramètre dans la base de données.
      *
      * @param personne La personne à ajouter
+     * @return Personne - La personne ajoutée dans la base de données
      */
     @PostMapping("personne")
-    public void createPersonne(@RequestBody Personne personne) {
-        personneRepository.save(personne);
+    public Personne createPersonne(@RequestBody Personne personne) {
+        return personneRepository.save(personne);
     }
 
     /**
-     * Modifie la personne en paramètre das la base de données
+     * Modifie la personne en paramètre dans la base de données.
      *
-     * @param personne La personne à modifier
+     * @param id       L'identifiant de la personne à modifier
+     * @param personne Personne contenant les nouvelles informations à enregistrer
+     * @return Personne - La personne modifiée, ou null si elle n'est pas présente dans la base de données
      */
-    @PutMapping("personne")
-    public void updatePersonne(@RequestBody Personne personne) {
-        personneRepository.save(personne);
+    @PutMapping("personne/{id}")
+    public Personne updatePersonne(@PathVariable("id") int id, @RequestBody Personne personne) {
+
+        // Si la personne existe dans la bdd, on vérifie les données et on effectue la modification
+        Optional<Personne> e = personneRepository.findById(id);
+        if (e.isPresent()) {
+            Personne personneBDD = e.get();
+
+            String nom = personne.getNomPersonne();
+            if (nom != null) {
+                personneBDD.setNomPersonne(nom);
+            }
+            String prenom = personne.getPrenomPersonne();
+            if (prenom != null) {
+                personneBDD.setPrenomPersonne(prenom);
+            }
+            return personneRepository.save(personneBDD);
+            // Sinon la personne n'existe pas dans la bbd et on renvoie null
+        } else {
+            return null;
+        }
     }
 
     /**
-     * Supprime la personne en paramètre das la base de données
+     * Supprime dans la base de données la personne dont l'identifiant est passé en paramètre.
      *
-     * @param personne La personne à supprimer
+     * @param id L'identifiant de la personne à supprimer
      */
-    @DeleteMapping("/personne")     // Renmplacer Personne => id
-    public void deletePersonne(@RequestBody Personne personne) {
-        personneRepository.delete(personne);
+    @DeleteMapping("/personne/{id}")
+    public void deletePersonne(@PathVariable("id") int id) {
+        personneRepository.deleteById(id);
     }
 
 }
