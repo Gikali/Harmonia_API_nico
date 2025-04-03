@@ -13,6 +13,6 @@ public class Concert {
     @Column(name = "id_concert")
     private long identifiantConcert;
 
-    @Column(name = "nom_concert")
+    @Column(name = "nom_concert", length = 50)
     private String nomConcert;
 }
