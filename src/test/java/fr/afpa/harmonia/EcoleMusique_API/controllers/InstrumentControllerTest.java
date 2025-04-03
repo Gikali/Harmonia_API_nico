@@ -10,10 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = InstrumentController.class)
@@ -24,13 +25,13 @@ public class InstrumentControllerTest {
     private InstrumentRepository instrumentRepository;
 
     @Test
-    public void findAll() throws Exception {
+     void findAll() throws Exception {
         mockMvc.perform(get("/instruments")).andExpect(status().isOk());
     }
 
 
     @Test
-    public void addInstrument() throws Exception {
+     void addInstrument() throws Exception {
         Instrument instrument = new Instrument();
         instrument.setLibelleInstrument("NewInstrument");
 
@@ -47,6 +48,48 @@ public class InstrumentControllerTest {
                         .content(jsonInstrument))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getInstrumentById() throws Exception {
+        Instrument instrument = new Instrument();
+        instrument.setIdInstrument(1);
+        instrument.setLibelleInstrument("Piano");
+
+        when(instrumentRepository.findById(1)).thenReturn(Optional.of(instrument));
+
+        mockMvc.perform(get("/instrument/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateInstrument() throws Exception {
+        Instrument existingInstrument = new Instrument();
+        existingInstrument.setIdInstrument(1);
+        existingInstrument.setLibelleInstrument("Piano");
+
+        Instrument updatedInstrument = new Instrument();
+        updatedInstrument.setIdInstrument(1);
+        updatedInstrument.setLibelleInstrument("Violon");
+
+        when(instrumentRepository.findById(1)).thenReturn(Optional.of(existingInstrument));
+        when(instrumentRepository.save(any(Instrument.class))).thenReturn(updatedInstrument);
+
+        String jsonUpdated = "{\"libelleInstrument\":\"Violon\"}";
+
+        mockMvc.perform(put("/instrument/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUpdated))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteInstrument() throws Exception {
+        mockMvc.perform(delete("/instrument/1"))
+                .andExpect(status().isOk());
+    }
+
+
+
 }
 
 

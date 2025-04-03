@@ -1,9 +1,9 @@
 package fr.afpa.harmonia.EcoleMusique_API.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 
 @Data
