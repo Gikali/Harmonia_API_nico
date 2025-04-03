@@ -2,6 +2,7 @@ package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
 import fr.afpa.harmonia.EcoleMusique_API.models.Instrument;
 import fr.afpa.harmonia.EcoleMusique_API.repositories.InstrumentRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class InstrumentController {
 
 
 
-    @PostMapping("/instrument")
+    @PostMapping("/instrument/create")
     public Instrument createInstrument(@RequestBody Instrument instrument) {
         return instrumentRepository.save(instrument);
     }
@@ -37,7 +38,7 @@ public class InstrumentController {
     }
 
     @PutMapping("/instrument/{id}")
-    public Instrument updateInstrument(@RequestBody Instrument instrument, @PathVariable int id) {
+    public Instrument updateInstrument( @PathVariable("id") int id , @RequestBody Instrument instrument) {
         Optional<Instrument> e = instrumentRepository.findById(id);
         if (e.isPresent()) {
             Instrument instr = e.get();
