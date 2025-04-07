@@ -43,7 +43,7 @@ public class PersonControllerTest {
     @Test
     public void createPersonneTest() throws Exception {
         // Création du JSON à transmettre
-        String json = "{\"nomPersonne\": \"NOM\",\"prenomPersonne\": \"Prenom\"}";
+        String json = "{\"nom\": \"NOM\",\"prenom\": \"Prenom\"}";
 
         // Test de la création de la nouvelle personne
         mockMvc.perform(MockMvcRequestBuilders.post("/personne")
@@ -59,14 +59,14 @@ public class PersonControllerTest {
     @Test
     public void updatePersonneTest(Personne personne) throws Exception {
         // Création d'une personne à modifier
-        String jsonCreate = "{\"nomPersonne\":\"NOM\",\"prenomPersonne\":\"Prenom\"}";
+        String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(post("/personne")
                 .contentType(MediaType.APPLICATION_JSON).content(jsonCreate));
 
         // Création du JSON à transmettre
-        String jsonUpdate = "{\"idPersonne\": 1," +
-                "\"nomPersonne\": \"NOM2\"," +
-                "\"prenomPersonne\": \"Prenom2\"}";
+        String jsonUpdate = "{\"id\": 1," +
+                "\"nom\": \"NOM2\"," +
+                "\"prenom\": \"Prenom2\"}";
 
         // Test de modification de la personne
         mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
@@ -81,7 +81,7 @@ public class PersonControllerTest {
      */
     public void deletePersonneTest() throws Exception {
         // Création d'une personne à supprimer
-        String json = "{\"nomPersonne\":\"NOM\",\"prenomPersonne\":\"Prenom\"}";
+        String json = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/personne")
                 .contentType(MediaType.APPLICATION_JSON).content(json));
 
@@ -97,7 +97,7 @@ public class PersonControllerTest {
     @Test
     public void getPersonneTest() throws Exception {
         // Création d'une personne à rechercher
-        String json = "{\"nomPersonne\":\"NOM\",\"prenomPersonne\":\"Prenom\"}";
+        String json = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/personne")
                 .contentType(MediaType.APPLICATION_JSON).content(json));
 

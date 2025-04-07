@@ -5,7 +5,6 @@ import fr.afpa.harmonia.EcoleMusique_API.repositories.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -68,13 +67,13 @@ public class PersonneController {
         if (e.isPresent()) {
             Personne personneBDD = e.get();
 
-            String nom = personne.getNomPersonne();
+            String nom = personne.getNom();
             if (nom != null) {
-                personneBDD.setNomPersonne(nom);
+                personneBDD.setNom(nom);
             }
-            String prenom = personne.getPrenomPersonne();
+            String prenom = personne.getPrenom();
             if (prenom != null) {
-                personneBDD.setPrenomPersonne(prenom);
+                personneBDD.setPrenom(prenom);
             }
             return personneRepository.save(personneBDD);
             // Sinon la personne n'existe pas dans la bbd et on renvoie null

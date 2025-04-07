@@ -14,11 +14,11 @@ public class Personne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_personne")
-    private int idPersonne;
+    private int id;
 
     @Column(name = "nom_personne", length = 50, nullable = false)
-    private String nomPersonne;
+    private String nom;
 
     @Column(name = "prenom_personne", length = 30, nullable = false)
-    private String prenomPersonne;
+    private String prenom;
 }
