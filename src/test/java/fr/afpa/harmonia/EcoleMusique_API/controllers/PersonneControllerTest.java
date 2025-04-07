@@ -60,7 +60,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void updatePersonneTest(Personne personne) throws Exception {
+    public void updatePersonneTest() throws Exception {
         // Création d'une personne à modifier
         String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(post("/personne")
@@ -82,6 +82,7 @@ public class PersonneControllerTest {
      *
      * @throws Exception
      */
+    @Test
     public void deletePersonneTest() throws Exception {
         // Création d'une personne à supprimer
         String json = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
