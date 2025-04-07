@@ -15,6 +15,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Classe de test du controller de Personne.
+ */
 @WebMvcTest(PersonneController.class)
 public class PersonneControllerTest {
 
@@ -26,7 +29,7 @@ public class PersonneControllerTest {
 
 
     /**
-     * Test de l'affichage de toutes les personnes
+     * Test de l'affichage de toutes les personnes.
      *
      * @throws Exception
      */
@@ -36,7 +39,7 @@ public class PersonneControllerTest {
     }
 
     /**
-     * Test de l'ajout d'une personne
+     * Test de l'ajout d'une personne.
      *
      * @throws Exception
      */
@@ -52,7 +55,7 @@ public class PersonneControllerTest {
     }
 
     /**
-     * Test de la modification d'une personne
+     * Test de la modification d'une personne.
      *
      * @throws Exception
      */
@@ -75,7 +78,7 @@ public class PersonneControllerTest {
     }
 
     /**
-     * Test de la suppression d'une personne
+     * Test de la suppression d'une personne.
      *
      * @throws Exception
      */
@@ -90,7 +93,7 @@ public class PersonneControllerTest {
     }
 
     /**
-     * Test de l'affichage d'une personne
+     * Test de l'affichage d'une personne.
      *
      * @throws Exception
      */

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 /**
- * Bean représentant une personne
+ * Bean représentant une personne.
  */
 @Data
 @Entity

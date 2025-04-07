@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 /**
- * Controlleur pour le bean Personne
+ * Controlleur pour le bean Personne.
  */
 @RestController
 public class PersonneController {

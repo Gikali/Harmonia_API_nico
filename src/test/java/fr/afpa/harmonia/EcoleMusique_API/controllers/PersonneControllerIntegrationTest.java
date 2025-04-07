@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Classe de test d'intégration pour le controller de Personne
+ * Classe de test d'intégration pour le controller de Personne.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,7 +21,7 @@ public class PersonneControllerIntegrationTest {
     private MockMvc mockMvc;
 
     /**
-     * Test du fonctionnement de l'enchainement des methodes
+     * Test du fonctionnement de l'enchainement des methodes.
      *
      * @throws Exception
      */
