@@ -22,7 +22,6 @@ public class ConcertController {
 
     /**
      * Crée un nouveau concert.
-     *
      * @param concert Le concert à créer, envoyé dans le corps de la requête.
      * @return Le concert créé.
      */
