@@ -18,6 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = InstrumentController.class)
+/**
+ * Classe de test unitaire pour InstrumentController.
+ */
 public class InstrumentControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -84,7 +87,7 @@ public class InstrumentControllerTest {
 
     @Test
     void deleteInstrument() throws Exception {
-        mockMvc.perform(delete("/instrument/1"))
+        mockMvc.perform(delete("/instrument/delete/1"))
                 .andExpect(status().isOk());
     }
 

@@ -10,24 +10,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+/**
+ * Contrôleur gérant les opérations liées aux instruments.
+ */
 public class InstrumentController {
 
     @Autowired
-    private  InstrumentRepository instrumentRepository;
-
+    private InstrumentRepository instrumentRepository;
 
 
     @PostMapping("/instrument/create")
+    /**
+     * Méthode automatique.
+     * @return Résultat de la méthode.
+     */
     public Instrument createInstrument(@RequestBody Instrument instrument) {
         return instrumentRepository.save(instrument);
     }
 
     @GetMapping("/instruments")
+    /**
+     * Méthode automatique.
+     * @return Résultat de la méthode.
+     */
     public Iterable<Instrument> getInstruments() {
         return instrumentRepository.findAll();
     }
 
     @GetMapping("/instrument/{id}")
+    /**
+     * Méthode automatique.
+     * @return Résultat de la méthode.
+     */
     public Instrument getInstrumentById(@PathVariable int id) {
         Optional<Instrument> instrument = instrumentRepository.findById(id);
         if (instrument.isPresent()) {
@@ -38,7 +52,11 @@ public class InstrumentController {
     }
 
     @PutMapping("/instrument/{id}")
-    public Instrument updateInstrument( @PathVariable("id") int id , @RequestBody Instrument instrument) {
+    /**
+     * Méthode automatique.
+     * @return Résultat de la méthode.
+     */
+    public Instrument updateInstrument(@PathVariable("id") int id, @RequestBody Instrument instrument) {
         Optional<Instrument> e = instrumentRepository.findById(id);
         if (e.isPresent()) {
             Instrument instr = e.get();
@@ -54,8 +72,22 @@ public class InstrumentController {
         }
     }
 
-    @DeleteMapping("/instrument/{id}")
+    @PostMapping("instrument/save")
+    public Instrument save(@RequestBody Instrument instrument) {
+        return instrumentRepository.save(instrument); // Ajout ou modif automatique
+    }
+
+
+    /**
+     * Méthode automatique.
+     *
+     * @return Résultat de la méthode.
+     */
+    @DeleteMapping("/instrument/delete/{id}")
     public void deleteInstrument(@PathVariable int id) {
         instrumentRepository.deleteById(id);
+
     }
+
 }
+

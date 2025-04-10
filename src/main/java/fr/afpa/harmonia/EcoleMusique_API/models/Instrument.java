@@ -9,6 +9,9 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name= "Instrument")
+/**
+ * Représente un instrument de musique dans le système.
+ */
 public class Instrument {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
