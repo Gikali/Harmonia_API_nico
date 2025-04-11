@@ -2,6 +2,7 @@ package fr.afpa.harmonia.EcoleMusique_API.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.antlr.v4.runtime.misc.NotNull;
 
 /**
  * Représente un utilisateur dans l'application.
@@ -33,7 +34,7 @@ public class User {
      * Ce champ représente le pseudonyme de l'utilisateur et est limité à 50 caractères.
      * </p>
      */
-    @Column(name = "username", length = 50)
+    @Column(name = "username", length = 50, nullable = false)
     private String username;
 
     /**
@@ -42,6 +43,7 @@ public class User {
      * Ce champ représente le mot de passe de l'utilisateur et est limité à 50 caractères.
      * </p>
      */
+    @Column(name = "password", length = 255, nullable = false)
     private String password;
 
     /**
@@ -50,5 +52,6 @@ public class User {
      * Ce champ représente le role de l'utilisateur.
      * </p>
      */
+    @Column(name = "role", length = 5, nullable = false)
     private String role;
 }
