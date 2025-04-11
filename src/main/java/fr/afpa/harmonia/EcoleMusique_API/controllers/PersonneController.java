@@ -3,7 +3,9 @@ package fr.afpa.harmonia.EcoleMusique_API.controllers;
 import fr.afpa.harmonia.EcoleMusique_API.models.Personne;
 import fr.afpa.harmonia.EcoleMusique_API.repositories.PersonneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -49,6 +51,9 @@ public class PersonneController {
      */
     @PostMapping("personne")
     public Personne createPersonne(@RequestBody Personne personne) {
+        if (!personne.validateValues()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         return personneRepository.save(personne);
     }
 
@@ -62,24 +67,19 @@ public class PersonneController {
     @PutMapping("personne/{id}")
     public Personne updatePersonne(@PathVariable("id") int id, @RequestBody Personne personne) {
 
-        // Si la personne existe dans la bdd, on vérifie les données et on effectue la modification
-        Optional<Personne> e = personneRepository.findById(id);
-        if (e.isPresent()) {
-            Personne personneBDD = e.get();
+        // Tentative de récupération de la personne via son id
+        Optional<Personne> p = personneRepository.findById(id);
 
-            String nom = personne.getNom();
-            if (nom != null) {
-                personneBDD.setNom(nom);
+        // Si la personne n'existe pas ou que les données saisies sont invalides on renvoie un code erreur
+        if ((!personne.validateValues()) || (p.isEmpty())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-            String prenom = personne.getPrenom();
-            if (prenom != null) {
-                personneBDD.setPrenom(prenom);
-            }
-            return personneRepository.save(personneBDD);
-            // Sinon la personne n'existe pas dans la bbd et on renvoie null
-        } else {
-            return null;
-        }
+
+        // Sinon on effectue la modification
+        Personne personneBDD = p.get();
+        personneBDD.setNom(personne.getNom());
+        personneBDD.setPrenom(personne.getPrenom());
+        return personneRepository.save(personneBDD);
     }
 
     /**
