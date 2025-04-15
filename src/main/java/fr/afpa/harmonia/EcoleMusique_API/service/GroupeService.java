@@ -31,4 +31,6 @@ public class GroupeService {
         Groupe savedGroupe = groupeRepository.save(groupe);
         return savedGroupe;
     }
+
+    //Manque createGroupe ?
 }

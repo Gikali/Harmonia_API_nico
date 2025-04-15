@@ -12,7 +12,7 @@ public class GroupeController {
     @Autowired
     private GroupeService groupeService;
 
-    @PostMapping("/groupe")
+    @PostMapping("/groupe/create")
     public Groupe createGroupe(@RequestBody Groupe groupe) {
         return groupeService.saveGroupe(groupe);
     }
@@ -32,7 +32,7 @@ public class GroupeController {
         }
     }
 
-    @PutMapping("/groupe/id")
+    @PutMapping("/groupe/update/{id}")
     public Groupe updateGroupe(@PathVariable("id") int id, @RequestBody Groupe groupe) {
         Optional<Groupe> e = groupeService.getGroupeById(id);
         if (e.isPresent()) {
@@ -50,8 +50,8 @@ public class GroupeController {
         }
     }
 
-    @DeleteMapping("/person/{id}")
-    public void deletePerson(@PathVariable("id") int id) {
+    @DeleteMapping("/groupe/delete/{id}")
+    public void deleteGroupe(@PathVariable("id") int id) {
         groupeService.deleteGroupe(id);
     }
 

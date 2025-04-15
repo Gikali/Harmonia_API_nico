@@ -11,10 +11,10 @@ import lombok.Data;
 public class Groupe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idGroupe")
-    private int idGroupe;
+    @Column(name="identifiant_groupe")
+    private int identifiantGroupe;
 
-    @Column(name="nomGroupe")
+    @Column(name="nom_groupe")
     private String nomGroupe;
 
 }
