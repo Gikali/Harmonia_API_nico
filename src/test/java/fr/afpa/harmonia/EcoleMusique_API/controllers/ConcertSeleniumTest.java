@@ -74,7 +74,7 @@ public class ConcertSeleniumTest {
 
         // Cliquer sur le bouton de modification pour un concert existant
         // On suppose ici que le bouton a une classe de la forme "update-<idConcert>"
-        WebElement updateButton = driver.findElement(By.cssSelector(".update"));
+        WebElement updateButton = driver.findElement(By.cssSelector(".update-3"));
         updateButton.click();
 
         // Sur la page d'édition, modifier le nom du concert
@@ -106,7 +106,7 @@ public class ConcertSeleniumTest {
 
         // Cliquer sur le bouton de suppression pour le concert à supprimer
         // On suppose que le bouton a une classe de la forme "delete-<idConcert>"
-        WebElement deleteButton = driver.findElement(By.cssSelector(".delete"));
+        WebElement deleteButton = driver.findElement(By.cssSelector(".delete-3"));
         deleteButton.click();
 
         // Une fois la suppression effectuée, vérifier que le concert n'est plus affiché
