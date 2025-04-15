@@ -28,7 +28,6 @@ public class GroupeService {
     }
 
     public Groupe saveGroupe(Groupe groupe) {
-        Groupe savedGroupe = groupeRepository.save(groupe);
-        return savedGroupe;
+        return groupeRepository.save(groupe);
     }
 }
