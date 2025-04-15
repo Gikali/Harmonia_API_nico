@@ -10,7 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -38,7 +40,9 @@ public class PersonneControllerIntegrationTest {
         String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(post("/personne")
                         .contentType(MediaType.APPLICATION_JSON).content(jsonCreate))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nom", is("NOM")))
+                .andExpect(jsonPath("$.prenom", is("Prenom")));
 
         // Test de récupération de toutes les personnes
         mockMvc.perform(get("/personnes")).andExpect(status().isOk());
@@ -58,7 +62,9 @@ public class PersonneControllerIntegrationTest {
                 "\"prenom\": \"Prenom2\"}";
         mockMvc.perform(MockMvcRequestBuilders.put("/personne/" + idTest)
                         .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nom", is("NOM2")))
+                .andExpect(jsonPath("$.prenom", is("Prenom2")));
 
         // Test de supression de la personne
         mockMvc.perform(delete("/personne/" + idTest)).andExpect(status().isOk());
