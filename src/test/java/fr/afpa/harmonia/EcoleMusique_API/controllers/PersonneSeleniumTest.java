@@ -104,8 +104,8 @@ public class PersonneSeleniumTest {
         driver.get("http://localhost:8081/listePersonnes");
 
         // Clique du bouton de suppression du dernier élément ajouté
-        WebElement btnModifier = driver.findElements(By.className("delete")).getLast();
-        btnModifier.click();
+        WebElement btnSupprimer = driver.findElements(By.className("delete")).getLast();
+        btnSupprimer.click();
 
         // Retour à la page de liste des personnes et vérification de la présence des données modifiées
         driver.get("http://localhost:8081/listePersonnes");

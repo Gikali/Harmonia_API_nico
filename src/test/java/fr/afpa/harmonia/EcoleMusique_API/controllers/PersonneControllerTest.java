@@ -10,6 +10,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -71,28 +74,31 @@ public class PersonneControllerTest {
     }
 
     // Test de modification ne passe pas, alors que parfaitement fonctionnel depuis PostMan/Site ?
-//    /**
-//     * Test de la modification d'une personne.
-//     *
-//     * @throws Exception
-//     */
-//    @Test
-//    public void updatePersonneTest() throws Exception {
-//        // Création d'une personne à modifier
-//        String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
-//        mockMvc.perform(post("/personne")
-//                .contentType(MediaType.APPLICATION_JSON).content(jsonCreate));
-//
-//        // Création du JSON à transmettre
-//        String jsonUpdate = "{\"id\": 1," +
-//                "\"nom\": \"NOM2\"," +
-//                "\"prenom\": \"Prenom2\"}";
-//
-//        // Test de modification de la personne
-//        mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
-//                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
-//                .andExpect(status().isOk());
-//    }
+    /**
+     * Test de la modification d'une personne.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void updatePersonneTest() throws Exception {
+        // Création d'une personne à modifier
+        Personne personne = new Personne();
+        personne.setId(1);
+        personne.setNom("NOM");
+        personne.setPrenom("Prenom");
+
+        when(personneRepository.findById(Integer.valueOf(1))).thenReturn(Optional.of(personne));
+
+        // Création du JSON à transmettre
+        String jsonUpdate = "{\"id\": 1," +
+                "\"nom\": \"NOM2\"," +
+                "\"prenom\": \"Prenom2\"}";
+
+        // Test de modification de la personne
+        mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
+                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
+                .andExpect(status().isOk());
+    }
 
     /**
      * Test de la modification d'une personne avec nom et prénom nuls.
