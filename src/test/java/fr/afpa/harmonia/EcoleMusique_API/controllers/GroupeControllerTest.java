@@ -62,7 +62,6 @@ public class GroupeControllerTest {
         groupe.setNomGroupe("TestAjout");
 
         Groupe savedGroupe = new Groupe();
-        savedGroupe.setIdentifiantGroupe(5);
         savedGroupe.setNomGroupe("TestAjout");
 
         when(groupeService.saveGroupe(any(Groupe.class))).thenReturn(savedGroupe);
