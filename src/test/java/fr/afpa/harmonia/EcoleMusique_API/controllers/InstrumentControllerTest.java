@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Classe de test unitaire pour InstrumentController.
  */
-public class InstrumentControllerTest {
+class InstrumentControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean

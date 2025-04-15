@@ -1,6 +1,5 @@
 package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
-import fr.afpa.harmonia.EcoleMusique_API.models.Personne;
 import fr.afpa.harmonia.EcoleMusique_API.repositories.PersonneRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Classe de test du controller de Personne.
  */
 @WebMvcTest(PersonneController.class)
-public class PersonneControllerTest {
+class PersonneControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,7 +33,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void getPersonnesTest() throws Exception {
+    void getPersonnesTest() throws Exception {
         mockMvc.perform(get("/personnes")).andExpect(status().isOk());
     }
 
@@ -44,7 +43,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void createPersonneTest() throws Exception {
+    void createPersonneTest() throws Exception {
         // Création du JSON à transmettre
         String json = "{\"nom\": \"NOM\",\"prenom\": \"Prenom\"}";
 
@@ -60,7 +59,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void createPersonneNullTest() throws Exception {
+    void createPersonneNullTest() throws Exception {
         // Création du JSON à transmettre
         String json = "{\"nom\": null,\"prenom\": null}";
 
@@ -100,7 +99,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void updatePersonneNullTest() throws Exception {
+    void updatePersonneNullTest() throws Exception {
         // Création d'une personne à modifier
         String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(post("/personne")
@@ -123,7 +122,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void getPersonneTest() throws Exception {
+    void getPersonneTest() throws Exception {
         // Création d'une personne à rechercher
         String json = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/personne")
@@ -139,7 +138,7 @@ public class PersonneControllerTest {
      * @throws Exception
      */
     @Test
-    public void deletePersonneTest() throws Exception {
+    void deletePersonneTest() throws Exception {
         // Création d'une personne à supprimer
         String json = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/personne")

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Classe de test de bout en bout utilisant Selenium pour la gestion des personnes.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PersonneSeleniumTest {
+class PersonneSeleniumTest {
 
     private static WebDriver driver;
 
@@ -27,7 +27,7 @@ public class PersonneSeleniumTest {
      * Initialisation du drver Sélénium
      */
     @BeforeAll
-    public static void init() {
+    static void init() {
         driver = new FirefoxDriver();
     }
 
@@ -36,7 +36,7 @@ public class PersonneSeleniumTest {
      */
     @Test
     @Order(1)
-    public void createPersonneTest() {
+    void createPersonneTest() {
 
         // Accès à la page de liste des personnes
         driver.get("http://localhost:8081/listePersonnes");
@@ -66,7 +66,7 @@ public class PersonneSeleniumTest {
      */
     @Test
     @Order(2)
-    public void updatePersonneTest() {
+    void updatePersonneTest() {
 
         // Accès à la page de liste des personnes
         driver.get("http://localhost:8081/listePersonnes");
@@ -98,7 +98,7 @@ public class PersonneSeleniumTest {
      */
     @Test
     @Order(3)
-    public void deletePersonneTest() {
+    void deletePersonneTest() {
 
         // Accès à la page de liste des personnes
         driver.get("http://localhost:8081/listePersonnes");
@@ -117,7 +117,7 @@ public class PersonneSeleniumTest {
      * Fermeture du driver Selenium après les tests
      */
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         if (driver != null) {
             driver.quit();
         }

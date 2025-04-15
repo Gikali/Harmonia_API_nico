@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * la mise à jour et la suppression de concerts via l'interface web.
  * </p>
  */
-public class ConcertSeleniumTest {
+class ConcertSeleniumTest {
 
     private static WebDriver driver;
 
@@ -29,7 +29,7 @@ public class ConcertSeleniumTest {
      * Initialise le WebDriver avant l'exécution de tous les tests.
      */
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         // Définir le chemin vers geckodriver si nécessaire
         driver = new FirefoxDriver();
     }
@@ -43,7 +43,7 @@ public class ConcertSeleniumTest {
      */
     @Test
     @Order(1)
-    public void testAddConcert() {
+    void testAddConcert() {
         // Accéder à la page d'ajout d'un concert
         driver.get("http://localhost:8081/concert/create");
 
@@ -71,7 +71,7 @@ public class ConcertSeleniumTest {
      */
     @Test
     @Order(2)
-    public void testUpdateConcert() {
+    void testUpdateConcert() {
         // Accéder à la page listant les concerts
         driver.get("http://localhost:8081/concerts");
 
@@ -104,7 +104,7 @@ public class ConcertSeleniumTest {
      */
     @Test
     @Order(3)
-    public void testDeleteConcert() {
+    void testDeleteConcert() {
         // Accéder à la page listant les concerts
         driver.get("http://localhost:8081/concerts");
 
@@ -123,7 +123,7 @@ public class ConcertSeleniumTest {
      * Ferme le WebDriver après l'exécution de tous les tests.
      */
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         if (driver != null) {
             driver.quit();
         }

@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = GroupeController.class)
-public class GroupeControllerTest {
+class GroupeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -21,7 +21,7 @@ public class GroupeControllerTest {
     private GroupeService groupeService;
 
     @Test
-    public void getAllGroupesTest() throws Exception {
+    void getAllGroupesTest() throws Exception {
         mockMvc.perform(get("/groupes")).andExpect(status().isOk());
     }
 
