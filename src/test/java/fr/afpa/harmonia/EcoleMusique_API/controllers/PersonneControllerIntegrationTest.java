@@ -1,5 +1,7 @@
 package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
+import fr.afpa.harmonia.EcoleMusique_API.models.Personne;
+import fr.afpa.harmonia.EcoleMusique_API.repositories.PersonneRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +23,9 @@ public class PersonneControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private PersonneRepository personneRepository;
+
     /**
      * Test du fonctionnement de l'enchainement des methodes.
      *
@@ -29,27 +34,34 @@ public class PersonneControllerIntegrationTest {
     @Test
     public void enchainementTest() throws Exception {
 
-        // Création d'une personne
+        // Test de création d'une personne
         String jsonCreate = "{\"nom\":\"NOM\",\"prenom\":\"Prenom\"}";
         mockMvc.perform(post("/personne")
-                .contentType(MediaType.APPLICATION_JSON).content(jsonCreate));
+                        .contentType(MediaType.APPLICATION_JSON).content(jsonCreate))
+                .andExpect(status().isOk());
 
-        // Récupération de toutes les personnes
+        // Test de récupération de toutes les personnes
         mockMvc.perform(get("/personnes")).andExpect(status().isOk());
 
-        // Récupération d'une personne spécifique
-        mockMvc.perform(get("/personne/1")).andExpect(status().isOk());
+        // Création d'une personne à manipuler pour les tests suivants
+        Personne personneTest = new Personne();
+        personneTest.setNom("TEST");
+        personneTest.setPrenom("Test");
+        int idTest = personneRepository.save(personneTest).getId();
 
-        // Modification de la personne
-//        String jsonUpdate = "{\"id\": 1," +
-//                "\"nom\": \"NOM2\"," +
-//                "\"prenom\": \"Prenom2\"}";
-//        mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
-//                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
-//                .andExpect(status().isOk());
+        // Test de récupération d'une personne spécifique
+        mockMvc.perform(get("/personne/" + idTest)).andExpect(status().isOk());
 
-        // Supression de la personne
-        mockMvc.perform(delete("/personne/1")).andExpect(status().isOk());
+        // Test de modification de la personne
+        String jsonUpdate = "{\"id\": " + idTest + "," +
+                "\"nom\": \"NOM2\"," +
+                "\"prenom\": \"Prenom2\"}";
+        mockMvc.perform(MockMvcRequestBuilders.put("/personne/" + idTest)
+                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
+                .andExpect(status().isOk());
+
+        // Test de supression de la personne
+        mockMvc.perform(delete("/personne/" + idTest)).andExpect(status().isOk());
 
     }
 }
