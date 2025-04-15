@@ -68,7 +68,7 @@ public class GroupeControllerTest {
         when(groupeService.saveGroupe(any(Groupe.class))).thenReturn(savedGroupe);
         String jsonGroupe = "{\"nom_groupe\":\"TestAjout\"}";
 
-        mockMvc.perform(post("/instrument/create")
+        mockMvc.perform(post("/groupe/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonGroupe))
                 .andExpect(status().isOk())
