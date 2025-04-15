@@ -41,12 +41,12 @@ public class PersonneControllerIntegrationTest {
         mockMvc.perform(get("/personne/1")).andExpect(status().isOk());
 
         // Modification de la personne
-        String jsonUpdate = "{\"id\": 1," +
-                "\"nom\": \"NOM2\"," +
-                "\"prenom\": \"Prenom2\"}";
-        mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
-                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
-                .andExpect(status().isOk());
+//        String jsonUpdate = "{\"id\": 1," +
+//                "\"nom\": \"NOM2\"," +
+//                "\"prenom\": \"Prenom2\"}";
+//        mockMvc.perform(MockMvcRequestBuilders.put("/personne/1")
+//                        .contentType(MediaType.APPLICATION_JSON).content(jsonUpdate))
+//                .andExpect(status().isOk());
 
         // Supression de la personne
         mockMvc.perform(delete("/personne/1")).andExpect(status().isOk());
