@@ -1,7 +1,6 @@
-package fr.afpa.harmonia.EcoleMusique_API;
+package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
 
-import fr.afpa.harmonia.EcoleMusique_API.controllers.GroupeController;
 import fr.afpa.harmonia.EcoleMusique_API.service.GroupeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
