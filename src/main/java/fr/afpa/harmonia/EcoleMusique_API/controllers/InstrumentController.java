@@ -28,7 +28,7 @@ public class InstrumentController {
         return instrumentRepository.save(instrument);
     }
 
-    @GetMapping("/instruments")
+    @GetMapping("/instrument")
     /**
      * Méthode automatique.
      * @return Résultat de la méthode.

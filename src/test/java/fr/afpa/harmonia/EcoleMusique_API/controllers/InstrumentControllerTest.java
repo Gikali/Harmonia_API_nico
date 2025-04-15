@@ -1,5 +1,6 @@
 package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.afpa.harmonia.EcoleMusique_API.models.Instrument;
 import fr.afpa.harmonia.EcoleMusique_API.repositories.InstrumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = InstrumentController.class)
 /**
@@ -26,15 +29,17 @@ public class InstrumentControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private InstrumentRepository instrumentRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
-     void findAll() throws Exception {
-        mockMvc.perform(get("/instruments")).andExpect(status().isOk());
+    void findAll() throws Exception {
+        mockMvc.perform(get("/instrument")).andExpect(status().isOk());
     }
 
 
     @Test
-     void addInstrument() throws Exception {
+    void addInstrument() throws Exception {
         Instrument instrument = new Instrument();
         instrument.setLibelleInstrument("NewInstrument");
 
@@ -91,9 +96,43 @@ public class InstrumentControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void shouldReturnListOfInstrumentsAsJson() throws Exception {
+        // Création des instruments
+        Instrument existingInstrument = new Instrument();
+        existingInstrument.setIdInstrument(1);
+        existingInstrument.setLibelleInstrument("Piano");
 
+        Instrument updatedInstrument = new Instrument();
+        updatedInstrument.setIdInstrument(2);
+        updatedInstrument.setLibelleInstrument("Violon");
+
+        // Simulation du service
+        List<Instrument> instruments = List.of(existingInstrument, updatedInstrument);
+        when(instrumentRepository.findAll()).thenReturn(instruments);
+
+        // Test de l'API REST
+        mockMvc.perform(get("/instrument"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$[0].idInstrument").value(1))
+                .andExpect(jsonPath("$[0].libelleInstrument").value("Piano"))
+                .andExpect(jsonPath("$[1].idInstrument").value(2))
+                .andExpect(jsonPath("$[1].libelleInstrument").value("Violon"));
+
+    }
+/*
+    @Test
+    void shouldCreateNewInstrumentViaJson() throws Exception {
+        String jsonInstrument = "{\"libelleInstrument\":\"newInstrument\"}"; // ❌ pas de idInstrument
+
+        mockMvc.perform(post("/instrument/save")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonInstrument))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].idInstrument").value(1))
+                .andExpect(jsonPath("$[0].libelleInstrument").value("newInstrument"));
+
+    } */
 
 }
-
-
-
