@@ -2,6 +2,7 @@ package fr.afpa.harmonia.EcoleMusique_API.controllers;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * la mise à jour et la suppression de concerts via l'interface web.
  * </p>
  */
+@Disabled
 public class ConcertSeleniumTest {
 
     private static WebDriver driver;

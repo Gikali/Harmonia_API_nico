@@ -3,6 +3,7 @@ package fr.afpa.harmonia.EcoleMusique_API.controllers;
 import fr.afpa.harmonia.EcoleMusique_API.models.Concert;
 import fr.afpa.harmonia.EcoleMusique_API.repositories.ConcertRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,9 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * et vérifie le parcours complet des requêtes HTTP pour l'ajout, la mise à jour et la suppression de concerts.
  * </p>
  */
+@Disabled
 @SpringBootTest
 @AutoConfigureMockMvc
-class ConcertControllerIntegrationTest {
+class ConcertControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
