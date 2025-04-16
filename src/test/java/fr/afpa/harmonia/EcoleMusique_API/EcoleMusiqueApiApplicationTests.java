@@ -9,7 +9,7 @@ class EcoleMusiqueApiApplicationTests {
 
 	@Test
 	void contextLoads() {
-		//Vide par défaut
+		//Vide par défau
 	}
 
 }
