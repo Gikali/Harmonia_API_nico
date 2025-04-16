@@ -32,6 +32,10 @@ public class Concert {
      * Ce champ représente le nom du concert et est limité à 50 caractères.
      * </p>
      */
-    @Column(name = "nom_concert", length = 50)
+    @Column(name = "nom_concert",
+            length = 50,
+            nullable = false,
+            unique = true
+    )
     private String nomConcert;
 }
