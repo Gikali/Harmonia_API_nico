@@ -1,14 +1,14 @@
 name: Run tests and Sonar on PR from test-all to test
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
-
+      - test
+    types: [opened, synchronize, reopened]
 
 jobs:
   test-and-sonar:
-
+    if: github.head_ref == 'test-all'
     runs-on: ubuntu-latest
 
     services:
@@ -67,16 +67,4 @@ jobs:
           done
 
       - name: Run tests & SonarQube analysis
-        run: ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AlexandreSama_Harmonia_API -Dsonar.organization=alexandresama -Dtest=!**/*Selenium*Test
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/harmonia
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
-
-      - name: Upload artifact (jar)
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-api.jar
-          path: target/*.jar
-          retention-days: 1
+        run: ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AlexandreSama_Harmonia_API -Dsonar.organization
