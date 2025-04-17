@@ -81,7 +81,7 @@ jobs:
       - name: Send notification to MS Teams with commit info
         uses: Ilshidur/action-discord@master
         env:
-          DISCORD_WEBHOOK: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          DISCORD_WEBHOOK: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
         with:
           args: |
             ${{ needs.build.result == 'success' && '🎯 CI **SUCCÈS ✅**' || '💥 CI **ÉCHEC ❌**' }}
