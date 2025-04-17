@@ -1,39 +1,59 @@
 name: SonarQube
+
 on: [push]
+
 jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+
     steps:
-
-
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Start MySql # demarrage du service mysql
+          fetch-depth: 0  # Meilleure pertinence pour SonarQube
+
+      - name: Start MySQL
         run: sudo service mysql start
 
-      - name: Import dump
+      - name: Set MySQL root password
+        run: |
+          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
+
+      - name: Create DB + User
+        run: |
+          mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS ecole_musique;"
+          mysql -u root -proot -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
+          mysql -u root -proot -e "GRANT ALL PRIVILEGES ON ecole_musique.* TO '${{ secrets.DB_USER }}'@'localhost';"
+          mysql -u root -proot -e "FLUSH PRIVILEGES;"
+
+      - name: Confirm DB exists
+        run: mysql -u root -proot -e "SHOW DATABASES LIKE 'ecole_musique';"
+
+      - name: Import SQL dump
         run: mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ecole_musique < infra/mysql/dump/harmoniaapi.sql
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'  # D'autres distributions sont disponibles
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+
+      - name: Build and analyze with SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_API_nico
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_
