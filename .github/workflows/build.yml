@@ -1,10 +1,7 @@
 name: Run tests and Sonar on PR from test-all to test
 
 on:
-  pull_request:
-    branches:
-      - test
-    types: [opened, synchronize, reopened]
+  push:
 
 jobs:
   test-and-sonar:
@@ -67,4 +64,4 @@ jobs:
           done
 
       - name: Run tests & SonarQube analysis
-        run: ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AlexandreSama_Harmonia_API -Dsonar.organization
+        run: ./mvnw verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Nicolas_EcoleMusique_API -Dsonar.organization=Nicolas
