@@ -1,10 +1,10 @@
 name: Run tests and Sonar on PR from test-all to test
 
 on:
-  pull_request:
+  push:
     branches:
-      - test
-    types: [opened, synchronize, reopened]
+      - main
+
 
 jobs:
   test-and-sonar:
