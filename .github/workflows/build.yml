@@ -16,28 +16,28 @@ jobs:
       - name: Start MySQL
         run: sudo service mysql start
 
-      - name: Set MySQL root password
+      - name: Create DB + App User using secrets
         run: |
-          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
-
-      - name: Create DB + User
-        run: |
-          mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS ecole_musique;"
-          mysql -u root -proot -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
-          mysql -u root -proot -e "GRANT ALL PRIVILEGES ON ecole_musique.* TO '${{ secrets.DB_USER }}'@'localhost';"
-          mysql -u root -proot -e "FLUSH PRIVILEGES;"
+          sudo mysql <<EOF
+          CREATE DATABASE IF NOT EXISTS ecole_musique;
+          CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';
+          GRANT ALL PRIVILEGES ON ecole_musique.* TO '${{ secrets.DB_USER }}'@'localhost';
+          FLUSH PRIVILEGES;
+          EOF
 
       - name: Confirm DB exists
-        run: mysql -u root -proot -e "SHOW DATABASES LIKE 'ecole_musique';"
+        run: |
+          mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} -e "SHOW DATABASES LIKE 'ecole_musique';"
 
       - name: Import SQL dump
-        run: mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ecole_musique < infra/mysql/dump/harmoniaapi.sql
+        run: |
+          mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ecole_musique < infra/mysql/dump/harmoniaapi.sql
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu'  # D'autres distributions sont disponibles
+          distribution: 'zulu'
 
       - name: Cache SonarQube packages
         uses: actions/cache@v4
@@ -56,4 +56,4 @@ jobs:
       - name: Build and analyze with SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_API_nico
