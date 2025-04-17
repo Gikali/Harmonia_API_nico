@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * et vérifie le parcours complet des requêtes HTTP pour l'ajout, la mise à jour et la suppression de concerts.
  * </p>
  */
-@Disabled
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class ConcertControllerIT {

@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * {@link ConcertController} et simuler le comportement du {@link ConcertRepository} via l'annotation {@code @MockBean}.
  * </p>
  */
-@Disabled
+
 @WebMvcTest(controllers = ConcertController.class)
 class ConcertControllerTest {
 
