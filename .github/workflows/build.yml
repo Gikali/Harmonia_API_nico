@@ -75,7 +75,7 @@ jobs:
         name: Teams Notification
         runs-on: ubuntu-latest
         needs: build
-        if: always()  # exécuter même si le job précédent échoue
+        if: always()  # exécuter même si le job précédent échou
 
         steps:
           - name: Send MS Teams Notification
