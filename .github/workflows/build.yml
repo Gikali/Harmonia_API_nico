@@ -72,14 +72,40 @@ jobs:
         run: ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_API_nico
 
   notify-teams:
-        name: Teams Notification
-        runs-on: ubuntu-latest
-        needs: build
-        if: always()  # exécuter même si le job précédent échou
+    name: Notify MS Teams
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()
 
-        steps:
-          - name: Send MS Teams Notification
-            uses: dchourasia/ms-teams-notification@v1.0
-            with:
-              github-token: ${{ github.token }}
-              webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+    steps:
+      - name: Send notification to MS Teams with commit info
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+        with:
+          args: |
+            ${{ needs.build.result == 'success' && '🎯 CI **SUCCÈS ✅**' || '💥 CI **ÉCHEC ❌**' }}
+            
+            🧪 **Repo :** ${{ github.repository }}
+            🙋‍♂️ **Auteur :** ${{ github.actor }}
+            💬 **Commit :** ${{ github.event.head_commit.message }}
+            
+            ```
+            ⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠻⣿⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⡀⠀⢻⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⠃⢰⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⢶⣶⣶⣾⣿⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⢠⡀⠐⠀⠀⠀⠻⢿⣿⣿⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⢸⣷⡄⠀⠣⣄⡀⠀⠉⠛⢿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⣿⣿⣦⠀⠹⣿⣷⣶⣦⣼⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣼⣿⣿⣿⣷⣄⣸⣿⣿⣿⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+            ⣿⣿⡿⢛⡙⢻⠛⣉⢻⣉⢈⣹⣿⣿⠟⣉⢻⡏⢛⠙⣉⢻⣿⣿⣿
+            ⣿⣿⣇⠻⠃⣾⠸⠟⣸⣿⠈⣿⣿⣿⡀⠴⠞⡇⣾⡄⣿⠘⣿⣿⣿
+            ⣿⣿⣟⠛⣃⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿
+            ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+            ```
+            
+            👉 [Voir les Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+   
