@@ -9,8 +9,17 @@ jobs:
         # demarrage du service mysqlrun:
         run: sudo service mysql start
 
-      - name: Create Database from script
-        run: mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} -e "source infra/mysql/dump/mcdEcoleMusique.sql"
+      - name: Create MySQL User & DB
+        run: |
+          mysql -u root -e "CREATE DATABASE IF NOT EXISTS ecole_musique;"
+          mysql -u root -e "CREATE USER IF NOT EXISTS '${{ secrets.DB_USER }}'@'localhost' IDENTIFIED BY '${{ secrets.DB_PASSWORD }}';"
+          mysql -u root -e "GRANT ALL PRIVILEGES ON ecole_musique.* TO '${{ secrets.DB_USER }}'@'localhost';"
+          mysql -u root -e "FLUSH PRIVILEGES;"
+
+      - name: Import dump
+        run: |
+          mysql -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ecole_musique < infra/mysql/dump/mcdEcoleMusique.sql
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
