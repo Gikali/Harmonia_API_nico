@@ -7,26 +7,37 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: ecole_musique
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Start MySQL
-        run: sudo service mysql start
-
-      - name: Configure root user with password
+      - name: Wait for MySQL to be ready
         run: |
-          sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
-
-      - name: Create database
-        run: |
-          mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS ecole_musique;"
+          for i in {1..30}; do
+            mysqladmin ping -h 127.0.0.1 -uroot -proot && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
 
       - name: Import SQL dump
         run: |
-          mysql -uroot -proot ecole_musique < infra/mysql/dump/harmoniaapi.sql
+          mysql -h 127.0.0.1 -P 3306 -uroot -proot ecole_musique < infra/mysql/dump/harmoniaapi.sql
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
