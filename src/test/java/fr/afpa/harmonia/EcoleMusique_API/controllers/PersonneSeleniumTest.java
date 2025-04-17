@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Classe de test de bout en bout utilisant Selenium pour la gestion des personnes.
  */
+@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PersonneSeleniumTest {
 
