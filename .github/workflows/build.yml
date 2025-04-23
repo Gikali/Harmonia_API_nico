@@ -125,6 +125,6 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/harmoniaapinico:latest
 
-      # message de fin indiquant que tout s'est bien passé
+      # message de fin indiquant que tout s'est bien pass
       - run: echo "🟢 This job's status is ${{ job.status }}."
 
