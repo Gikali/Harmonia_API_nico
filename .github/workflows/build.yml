@@ -1,10 +1,12 @@
 name: SonarQube
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
@@ -26,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
 
       - name: Wait for MySQL
         run: |
@@ -51,32 +53,35 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 21
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Make mvnw executable
         run: chmod +x ./mvnw
+
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_API_nico
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-         name: package.jar
-         path: ./target/*.jar
-      - name: Rename jar
-        run: mv ./target/*.jar package.jar
+          name: package.jar
+          path: ./target/*.jar
 
   notify-teams:
     name: Notify MS Teams
@@ -104,26 +109,36 @@ jobs:
               "targets": [{ "os": "default", "uri": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }]
             }]
           }' ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+
   docker-build-image-api:
     if: ${{ github.ref == 'refs/heads/main' }}
-
     runs-on: ubuntu-latest
-    needs:
-      - build
+    needs: build
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Connect to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Download a single artifact
+
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: package.jar
-      - name: List files in the repository
-        run: ls ${{ github.workspace }}
-      # construction de l'image docker et push sur dockerHub
+          path: .
+
+      - name: Check jar file is here
+        run: |
+          echo "✅ Liste des fichiers présents :"
+          ls -lh
+          if [ ! -f package.jar ]; then
+            echo "❌ Le fichier package.jar est introuvable à la racine."
+            exit 1
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -132,6 +147,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/harmoniaapinico:latest
 
-      # message de fin indiquant que tout s'est bien pass
       - run: echo "🟢 This job's status is ${{ job.status }}."
-
