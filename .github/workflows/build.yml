@@ -70,6 +70,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Gikali_Harmonia_API_nico
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: package.jar
+         path: ./target/*.jar
 
   notify-teams:
     name: Notify MS Teams
