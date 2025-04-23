@@ -5,6 +5,6 @@ EXPOSE 8082
 
 WORKDIR /app
 
-COPY harmonia_api_nico.jar .
+COPY package.jar .
 
-CMD ["java", "-jar", "harmonia_api_nico.jar"]
+CMD ["java", "-jar", "package.jar"]
