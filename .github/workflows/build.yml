@@ -75,6 +75,8 @@ jobs:
         with:
          name: package.jar
          path: ./target/*.jar
+      - name: Rename jar
+        run: mv ./target/*.jar package.jar
 
   notify-teams:
     name: Notify MS Teams
