@@ -97,3 +97,34 @@ jobs:
               "targets": [{ "os": "default", "uri": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }]
             }]
           }' ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
+  docker-build-image-api:
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Connect to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: package.jar
+      - name: List files in the repository
+        run: ls ${{ github.workspace }}
+      # construction de l'image docker et push sur dockerHub
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USER }}/harmoniaapinico:latest
+
+      # message de fin indiquant que tout s'est bien passé
+      - run: echo "🟢 This job's status is ${{ job.status }}."
+
