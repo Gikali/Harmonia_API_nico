@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(properties = {
-		"spring.datasource.url=jdbc:mysql://localhost:3306/harmonia",
+		"spring.datasource.url=jdbc:mysql://localhost:3306/harmoniaapi",
 		"spring.datasource.username=root",
-		"spring.datasource.password=root",
+		"spring.datasource.password=Ramses^2",
 		"spring.jpa.hibernate.ddl-auto=update"
 })
 class EcoleMusiqueApiApplicationTests {
