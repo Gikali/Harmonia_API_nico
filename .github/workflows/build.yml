@@ -43,7 +43,7 @@ jobs:
 
       - name: Create harmonia database
         run: |
-          mysql -h 127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS harmonia;"
+          mysql -h 127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS harmoniaapi;"
 
       - name: Import SQL structure (optional)
         run: |
