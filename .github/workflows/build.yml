@@ -47,7 +47,7 @@ jobs:
 
       - name: Import SQL structure (optional)
         run: |
-          mysql -h 127.0.0.1 -uroot -proot harmonia < infra/mysql/dump/harmoniaapi.sql
+          mysql -h 127.0.0.1 -uroot -proot harmoniaapi < infra/mysql/dump/harmoniaapi.sql
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
